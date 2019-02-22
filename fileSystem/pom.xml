@@ -203,5 +203,18 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <resources>
+        <!-- resource processsing with a different output directory
+             for logback.xml -->
+        <resource>
+            <directory>src/main/java/fileSystem/mapper</directory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+            <!-- relative to target/classes
+                 i.e. ${project.build.outputDirectory} -->
+            <targetPath>fileSystem/mapper</targetPath>
+        </resource>
+    </resources>
   </build>
 </project>
