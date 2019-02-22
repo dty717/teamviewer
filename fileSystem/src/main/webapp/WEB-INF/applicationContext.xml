@@ -48,6 +48,6 @@
     <mvc:annotation-driven>
 
     </mvc:annotation-driven>
-    <mvc:resources mapping="/file/**" location="file:/usr/uploadfile/" />
+    <mvc:resources mapping="/file/**" location="file:///usr/uploadfile/" />
     <mvc:resources mapping="/**" location="/" />    
 </beans>
