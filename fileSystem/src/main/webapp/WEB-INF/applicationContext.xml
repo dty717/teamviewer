@@ -49,6 +49,6 @@
 
     </mvc:annotation-driven>
     <mvc:resources mapping="/file/**" location="file:/usr/uploadfile/" />
-    <mvc:resources mapping="/usr/**" location="file:/usr/" />
+    <mvc:resources mapping="/usr/**" location="file:/usr/github" />
     <mvc:resources mapping="/**" location="/" />    
 </beans>
