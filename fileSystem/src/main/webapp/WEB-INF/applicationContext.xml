@@ -41,14 +41,14 @@
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- one of the properties available; the maximum file size in bytes -->
-		<property name="maxUploadSize" value="1260000000"/>
+		<property name="maxUploadSize" value="1260000"/>
 	</bean>
     
 
     <mvc:annotation-driven>
 
     </mvc:annotation-driven>
-    <mvc:resources mapping="/file/**" location="file:/usr/uploadfile/" />
-    <mvc:resources mapping="/usr/**" location="file:/usr/github" />
+    <!--<mvc:resources mapping="/file/**" location="file:/usr/uploadfile/" />
+    <mvc:resources mapping="/usr/**" location="file:/usr/github" />-->
     <mvc:resources mapping="/**" location="/" />    
 </beans>
