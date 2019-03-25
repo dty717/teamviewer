@@ -49,7 +49,7 @@ public class MailController {
 
     public void updateMailConfiguration() {
         String json = "{\n"+
-        "	\"mailFrom\": \"Thingsboard <sysadmin@notice.dty717>\",\n"+
+        "	\"mailFrom\": \"Thingsboard <sysadmin@localhost.localdomain>\",\n"+
         "	\"smtpProtocol\": \"smtp\",\n"+
         "	\"smtpHost\": \"localhost\",\n"+
         "	\"smtpPort\": \"25\",\n"+
