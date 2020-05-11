@@ -43,7 +43,9 @@
 		<!-- one of the properties available; the maximum file size in bytes -->
 		<property name="maxUploadSize" value="1260000"/>
 	</bean>
-    
+	
+	<bean id="robot" class="java.awt.Robot"></bean>
+
 
     <mvc:annotation-driven>
 

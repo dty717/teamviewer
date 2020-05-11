@@ -9,70 +9,243 @@
                 width: 100%;
             }
             
+            img{
+                width:100%
+                height:100%
+            }
         </style>
         
-    <style id="test_css"></style>
-    <script src="https://kazuhikoarase.github.io/qrcode-generator/js/qrcode.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
-    
-
+        <style id="test_css"></style>
+        <script src="https://kazuhikoarase.github.io/qrcode-generator/js/qrcode.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
         
     </head>
-    <body ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-        Hello World
-    <script type="text/javascript" charset="utf-8">
-        function dropHandler(ev) {
-          ev.preventDefault();
-          if (ev.dataTransfer.items) {
-        	for (var i = 0; i < ev.dataTransfer.items.length; i++) {
-              if (ev.dataTransfer.items[i].kind === 'file') {
-                var file = ev.dataTransfer.items[i].getAsFile();
-                //console.log('... file[' + i + '].name = ' + file.name);
-        		uploadFile(file);
-        		break;
-              }
-            }
-          } else {
-            uploadFile(ev.dataTransfer.files[0]);
-          } 
-          removeDragData(ev)
-        }
-        function dragOverHandler(ev) {
-          ev.preventDefault();
-        }
-        function removeDragData(ev) {
-          if (ev.dataTransfer.items) {
-            ev.dataTransfer.items.clear();
-          } else {
-            ev.dataTransfer.clearData();
-          }
-        }
-        function uploadFile(file){
-        	if(file==undefined)
-        		return;
-            var formData = new FormData();
-              
-            formData.append("path","/usr/github/darknet/data");
-            formData.append("file",file);
-            $.ajax({
-                url: 'uploadFile',
-                type: 'POST',
-                data: formData,
-                enctype: 'multipart/form-data',
-                //contentType:"application/x-javascript; charset:ISO-8859-1"
-                processData: false,
-                contentType: false,
-                cache: false,
-                success: function (response) {
-                    alert("ok")
+    <body>
+        <img id="monitor" src="/monitor?type=null" alt="The Scream"/>
+        
+        <button  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">upload</button>
+        <script type="text/javascript" charset="utf-8">
+            function dropHandler(ev)
+            {
+                ev.preventDefault();
+                if (ev.dataTransfer.items)
+                {
+                    for (var i = 0; i < ev.dataTransfer.items.length; i++)
+                    {
+                        if (ev.dataTransfer.items[i].kind === 'file')
+                        {
+                            var file = ev.dataTransfer.items[i].getAsFile();
+                            //console.log('... file[' + i + '].name = ' + file.name);
+                            uploadFile(file);
+                            break;
+                        }
+                    }
                 }
-            });
-        }
+                else
+                {
+                    uploadFile(ev.dataTransfer.files[0]);
+                }
+                removeDragData(ev)
+            }
 
+            function dragOverHandler(ev)
+            {
+                ev.preventDefault();
+            }
+
+            function removeDragData(ev)
+            {
+                if (ev.dataTransfer.items)
+                {
+                    ev.dataTransfer.items.clear();
+                }
+                else
+                {
+                    ev.dataTransfer.clearData();
+                }
+            }
+
+            function uploadFile(file)
+            {
+                if (file == undefined)
+                    return;
+                var formData = new FormData();
+        
+                formData.append("path", "/usr/github/darknet/data");
+                formData.append("file", file);
+                $.ajax(
+                {
+                    url: 'uploadFile',
+                    type: 'POST',
+                    data: formData,
+                    enctype: 'multipart/form-data',
+                    //contentType:"application/x-javascript; charset:ISO-8859-1"
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function(response)
+                    {
+                        alert("ok")
+                    }
+                });
+            }
+        
+            function getWidth(obj){
+                return Math.max(
+                    document.body.scrollWidth,
+                    document.documentElement.scrollWidth,
+                    document.body.offsetWidth,
+                    document.documentElement.offsetWidth,
+                    document.documentElement.clientWidth,
+                    obj
+                ) - 50;
+            }
+        
+            function getHeight(obj){
+                return Math.max(
+                    document.body.scrollHeight,
+                    document.documentElement.scrollHeight,
+                    document.body.offsetHeight,
+                    document.documentElement.offsetHeight,
+                    document.documentElement.clientHeight,
+                    obj
+                ) - 50;
+            }
+            var monitor = document.getElementById("monitor");
+            var height = getHeight(monitor.height)
+            var width = getWidth(monitor.width)
+            monitor.height = height;
+            monitor.width = width;
+            var tag = true;
+            //document.onkeypress = fkey
+            document.onkeyup = fkeyup;
+            document.onkeydown = fkey;
+        
+            var wasPressed = false;
+            var key_e = {
+                timeStamp: 0
+            };
+        
+            function fkey(e){
+                e = e || window.event;
+                var key = e.key || e.keyCode;
+                console.log(e.timeStamp - key_e.timeStamp);
+                key_e = e;
+                console.log("key down:", e);
+        
+                $.ajax(
+                {
+                    url: "control",
+                    method: "GET",
+                    data:
+                    {
+                        type: "keyDown",
+                        code: e.keyCode
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: (function(msg)
+                    {
+                        //console.log(msg, msg.type)
+                    })
+                });
+                return false;
+            }
+        
+            function fkeyup(e)
+            {
+                e = e || window.event;
+                var key = e.key || e.keyCode;
+                //console.log(e.timeStamp-key_e.timeStamp);
+                key_e = e;
+                console.log("key up:", e);
+                if (e.type == "scroll")
+                {
         
         
-    </script>        
+                }
+                $.ajax(
+                {
+                    url: "control",
+                    method: "GET",
+                    data:
+                    {
+                        type: "keyUp",
+                        code: e.keyCode
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: (function(msg)
+                    {
+                        //console.log(msg, msg.type)
+                    })
+                });
+                //return false;
+            }
+            var runOnWheel = function(e)
+            {
+                if (e.deltaY < 0)
+                {
+                    // upscroll code
+                    $.ajax(
+                    {
+                        url: "control",
+                        method: "GET",
+                        data:
+                        {
+                            type: "scroll",
+                            code: 1
+                        },
+                        contentType: "application/json; charset=utf-8",
+                        success: (function(msg)
+                        {
+                            //console.log(msg, msg.type)
+                        })
+                    });
+                }
+                if (e.deltaY > 0)
+                {
+                    // downscroll code
+                    $.ajax(
+                    {
+                        url: "control",
+                        method: "GET",
+                        data:
+                        {
+                            type: "scroll",
+                            code: 0
+                        },
+                        contentType: "application/json; charset=utf-8",
+                        success: (function(msg)
+                        {
+                            //console.log(msg, msg.type)
+                        })
+                    });
+                }
+            };
+            document.onwheel = runOnWheel;
+        
+            $(document).on("click", function(e)
+            {
+                console.log("click")
+                monitor.src = "/monitor?type=click&x=" + parseInt(e.clientX /
+                    width * 100) + "&y=" + parseInt(e.clientY / height *
+                    100);
+            });
+            $(document).on("dblclick", function(e)
+            {
+                console.log("db")
+                monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.clientX /
+                    width * 100) + "&y=" + parseInt(e.clientY / height *
+                    100);
+            });
+            $(document).on("contextmenu", function(e)
+            {
+                monitor.src = "/monitor?type=contextmenu&x=" + parseInt(e.clientX /
+                    width * 100) + "&y=" + parseInt(e.clientY / height *
+                    100);
+                return false
+            });
+        </script>
     </body>
 </html>
