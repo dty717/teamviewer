@@ -222,7 +222,12 @@
         <artifactId>jsch</artifactId>
         <version>0.1.55</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.5</version>
+    </dependency>
   </dependencies>
   
 
@@ -264,7 +269,7 @@
             <artifactId>tomcat7-maven-plugin</artifactId>
             <version>2.2</version>
             <configuration>
-                <port>8888</port>   <!--Configure port number-->
+                <port>8880</port>   <!--Configure port number-->
                 <path>/</path>   <!--Configure application root URL-->
             </configuration>
         </plugin>

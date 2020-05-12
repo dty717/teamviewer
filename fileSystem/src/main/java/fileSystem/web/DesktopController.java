@@ -40,9 +40,26 @@ import com.jcraft.jsch.*;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import fileSystem.service.DesktopService;
 
+import com.google.gson.Gson;
+
+@CrossOrigin(origins = "*")
 @Controller
 public class DesktopController {
+    
+    @Autowired
+    DesktopService desktopService;
+
+    @RequestMapping(value = "/speaking",produces = MediaType.TEXT_PLAIN_VALUE + "; charset=utf-8")
+    @ResponseBody
+    public String getSpeech(@RequestParam("msg")String message){
+        return gson.toJson(desktopService.getSpeech(message.trim()));
+    }
+    @Autowired
+    Gson gson;
+    
     
     @Autowired
     Robot robot;

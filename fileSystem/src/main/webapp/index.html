@@ -13,8 +13,26 @@
                 width:100%
                 height:100%
             }
+            .textare-margin {
+                margin: 0 auto;
+                width: 80%;
+                position: fixed;
+                bottom: -30px;
+                left: 10%;
+            }
+    
+            .float_left {
+                text-align: left;
+                background: #ddd;
+                float: left;
+            }
+    
+            .float_right {
+                text-align: right;
+                background: #ddd;
+                float: right;
+            }
         </style>
-        
         <style id="test_css"></style>
         <script src="https://kazuhikoarase.github.io/qrcode-generator/js/qrcode.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -25,7 +43,10 @@
     <body>
         <img id="monitor" src="/monitor?type=null" alt="The Scream"/>
         
+        
         <button  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">upload</button>
+        
+        <textarea class="form-control  badge-light textare-margin" id="exampleFormControlTextarea1" rows="3"></textarea>
         <script type="text/javascript" charset="utf-8">
             function dropHandler(ev)
             {
@@ -120,8 +141,8 @@
             monitor.width = width;
             var tag = true;
             //document.onkeypress = fkey
-            document.onkeyup = fkeyup;
-            document.onkeydown = fkey;
+            document.getElementById("monitor").onkeyup = fkeyup;
+            document.getElementById("monitor").onkeydown = fkey;
         
             var wasPressed = false;
             var key_e = {
@@ -223,29 +244,92 @@
                     });
                 }
             };
-            document.onwheel = runOnWheel;
+            document.getElementById("monitor").onwheel = runOnWheel;
         
-            $(document).on("click", function(e)
+            $("#monitor").on("click", function(e)
             {
                 console.log("click")
                 monitor.src = "/monitor?type=click&x=" + parseInt(e.clientX /
                     width * 100) + "&y=" + parseInt(e.clientY / height *
                     100);
             });
-            $(document).on("dblclick", function(e)
+            $("#monitor").on("dblclick", function(e)
             {
                 console.log("db")
                 monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.clientX /
                     width * 100) + "&y=" + parseInt(e.clientY / height *
                     100);
             });
-            $(document).on("contextmenu", function(e)
+            $("#monitor").on("contextmenu", function(e)
             {
                 monitor.src = "/monitor?type=contextmenu&x=" + parseInt(e.clientX /
                     width * 100) + "&y=" + parseInt(e.clientY / height *
                     100);
                 return false
             });
+            
+            $('#exampleFormControlTextarea1').on('input', function (e) {
+                console.log(e);
+                clearTimeout(changeTimeId);
+                changeTimeId=setTimeout(newMessage, 3000)
+                if (!changing) {
+                    changing=true;
+                    if(clearFlag){
+                        setTimeout(clearContent,30000);
+                        clearFlag=false;
+                    }
+                }
+            });
+            var changeTimeId;
+            var changing = false;
+            var isIPhone=false;
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                document.getElementById("content").style.fontSize="45px"
+                document.getElementById("exampleFormControlTextarea1").style.fontSize="45px";
+                isIPhone=true;
+            }
+            
+            function clearContent(){
+                clearFlag=true;
+            }
+
+            
+            function newMessage() {
+                var message = $('#exampleFormControlTextarea1').val();
+                changing = false;
+                if (message == "") {
+                    return;
+                }
+                var sendUrl="/speaking";
+
+                
+                var data;
+                if(sendUrl=="/topic/speech"){
+                    data={content:message};
+                }else{
+                    data={msg: message};
+                }
+                $.ajax({
+                    url: sendUrl,
+                    data: data
+                })
+                    .done(function (data) {
+                        console.log(data);
+                    });
+                
+                if(isIPhone){
+                    $('#exampleFormControlTextarea1').focus();
+                    setTimeout(function() {
+                        $('#exampleFormControlTextarea1').val('');    
+                    }, 100);
+                }else{
+                    $('#exampleFormControlTextarea1').focus();
+                    $('#exampleFormControlTextarea1').val('');    
+                }
+                
+            }
+
+            
         </script>
     </body>
 </html>

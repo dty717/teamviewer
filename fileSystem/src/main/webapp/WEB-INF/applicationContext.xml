@@ -44,6 +44,7 @@
 		<property name="maxUploadSize" value="1260000"/>
 	</bean>
 	
+	<bean id="gson" class="com.google.gson.Gson"></bean>
 	<bean id="robot" class="java.awt.Robot"></bean>
 
 
