@@ -45,9 +45,13 @@
         
         
         <button  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">upload</button>
-        
+        <button  onclick="sendKey(KeyEvent.VK_BACK_SPACE)">backspace</button>
+        <button  onclick="sendKey(KeyEvent.VK_WINDOWS)">window</button>
+
         <textarea class="form-control  badge-light textare-margin" id="exampleFormControlTextarea1" rows="3"></textarea>
         <script type="text/javascript" charset="utf-8">
+            const KeyEvent={VK_BACK_SPACE:8,VK_WINDOWS:0x020C};
+            
             function dropHandler(ev)
             {
                 ev.preventDefault();
@@ -148,6 +152,40 @@
             var key_e = {
                 timeStamp: 0
             };
+        
+            function sendKey(obj){
+                $.ajax(
+                {
+                    url: "control",
+                    method: "GET",
+                    data:
+                    {
+                        type: "keyDown",
+                        code: obj
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: (function(msg)
+                    {
+                        //console.log(msg, msg.type)
+                    })
+                });
+                $.ajax(
+                {
+                    url: "control",
+                    method: "GET",
+                    data:
+                    {
+                        type: "keyUp",
+                        code: obj
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: (function(msg)
+                    {
+                        //console.log(msg, msg.type)
+                    })
+                });
+
+            }
         
             function fkey(e){
                 e = e || window.event;
