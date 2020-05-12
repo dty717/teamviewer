@@ -1,2 +1,2 @@
-cd C:\Users\xqy\Desktop\github\dty717\teamviewer\fileSystem
+timeout 10
 mvn tomcat7:run

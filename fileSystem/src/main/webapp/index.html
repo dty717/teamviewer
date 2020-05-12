@@ -161,7 +161,7 @@
             var key_e = {
                 timeStamp: 0
             };
-        
+
             function sendKey(obj){
                 $.ajax(
                 {
@@ -317,7 +317,6 @@
             });
             
             $('#exampleFormControlTextarea1').on('input', function (e) {
-                console.log(e);
                 clearTimeout(changeTimeId);
                 changeTimeId=setTimeout(newMessage, 3000)
                 if (!changing) {
@@ -331,6 +330,8 @@
             var changeTimeId;
             var changing = false;
             var isIPhone=false;
+            var clearFlag=true;
+
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
                 document.getElementById("content").style.fontSize="45px"
                 document.getElementById("exampleFormControlTextarea1").style.fontSize="45px";
