@@ -25,10 +25,10 @@ import java.io.IOException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.comm.CommPortIdentifier;
-import javax.comm.PortInUseException;
-import javax.comm.SerialPort;
-import javax.comm.UnsupportedCommOperationException;
+// import javax.comm.CommPortIdentifier;
+// import javax.comm.PortInUseException;
+// import javax.comm.SerialPort;
+// import javax.comm.UnsupportedCommOperationException;
 import java.io.OutputStream;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -69,14 +69,14 @@ public class DesktopService{
                 return getSpeechOrder(text);
             case workMode:
                 return getSpeechWork(text);
-            case serialMode:
-                return getSerialWork(text);
+            // case serialMode:
+                // return getSerialWork(text);
         }
         return "error";
     }
     String serialName="com9";
     int bound=9600;
-    public Object getSerialWork(String text){
+/*    public Object getSerialWork(String text){
         if(text.startsWith("设置串口")){
             serialName=text.substring(4).trim().toLowerCase();
             return "ok";
@@ -120,7 +120,7 @@ public class DesktopService{
             return "work";
         }
     }
-
+*/
     private boolean needSaveSpeech;
 
     
