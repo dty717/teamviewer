@@ -127,7 +127,7 @@
                     obj
                 ) - 50;
             }
-        
+
             function getHeight(obj){
                 return Math.max(
                     document.body.scrollHeight,
@@ -145,7 +145,16 @@
             monitor.width = width;
             var tag = true;
             //document.onkeypress = fkey
-            document.getElementById("monitor").onkeyup = fkeyup;
+            document.onkeyup = function(e){
+                if(e.target==document.body){
+                    fkeyup(e);
+                }    
+            }
+            document.onkeydown = function(e){
+                if(e.target==document.body){
+                    fkey(e);
+                }    
+            }
             document.getElementById("monitor").onkeydown = fkey;
         
             var wasPressed = false;
@@ -282,7 +291,7 @@
                     });
                 }
             };
-            document.getElementById("monitor").onwheel = runOnWheel;
+            document.onwheel = runOnWheel;
         
             $("#monitor").on("click", function(e)
             {
@@ -290,6 +299,7 @@
                 monitor.src = "/monitor?type=click&x=" + parseInt(e.clientX /
                     width * 100) + "&y=" + parseInt(e.clientY / height *
                     100);
+                $(this).focus();
             });
             $("#monitor").on("dblclick", function(e)
             {
