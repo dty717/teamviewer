@@ -188,11 +188,31 @@ public class FileController {
             if(file.exists()){
                 java.awt.Desktop.getDesktop().open(file);
                 
-                //file.getAbsolutePath();            
+                //file.getAbsolutePath();
             }
         } catch (Throwable t)
         {
             t.printStackTrace();
+        }
+        return "{\"state\":\"success\"}";
+    }
+    
+    @RequestMapping(value = { "newFile" },produces = MediaType.APPLICATION_JSON_VALUE+";charset=utf-8")
+    @ResponseBody
+    public String newFile(@RequestParam("path")String path,@RequestParam(value = "name")String name) {
+        File file=new File(path);
+        
+        if(!file.exists()){
+            return "{\"state\":\"error(no path exist)\"}";
+        }
+        if(file.isFile()){
+            file=file.getParentFile();
+        }
+        File fileNew=new File(file.getAbsolutePath()+"/"+name);
+        try{
+            fileNew.createNewFile();
+        }catch (Exception e){
+            return "{\"state\":\"error(no path exist)\"}";
         }
         return "{\"state\":\"success\"}";
     }
