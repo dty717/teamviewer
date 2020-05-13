@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@Configuration
-@EnableScheduling
+// @Configuration
+// @EnableScheduling
 public class WebConfig extends WebMvcConfigurerAdapter {
     
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*");
-    }
+    // @Override
+    // public void addCorsMappings(CorsRegistry registry) {
+    //     registry.addMapping("/**").allowedOrigins("*");
+    // }
     
 }
