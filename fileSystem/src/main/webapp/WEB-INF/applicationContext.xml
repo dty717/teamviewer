@@ -108,5 +108,14 @@
     </mvc:annotation-driven>
     <!--<mvc:resources mapping="/file/**" location="file:/usr/uploadfile/" />
     <mvc:resources mapping="/usr/**" location="file:/usr/github" />-->
-    <mvc:resources mapping="/**" location="/" />    
+    <mvc:resources mapping="/**" location="/" />   
+    <mvc:resources mapping="/c/**" location="file:/C:/" />
+    <mvc:resources mapping="/C/**" location="file:/C:/" />
+    <mvc:resources mapping="/c:/**" location="file:/C:/" />
+    <mvc:resources mapping="/C:/**" location="file:/C:/" />
+    <mvc:resources mapping="/d/**" location="file:/D:/" />
+    <mvc:resources mapping="/D/**" location="file:/D:/" />
+    <mvc:resources mapping="/d:/**" location="file:/D:/" />
+    <mvc:resources mapping="/D:/**" location="file:/D:/" />
+    
 </beans>
