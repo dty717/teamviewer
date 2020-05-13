@@ -44,9 +44,6 @@ public class UserController {
     }
     
 
-
-    
-
     @RequestMapping(value="/rest/security/authentication-failure", method = RequestMethod.GET)
     public ResponseEntity<String> apiAuthenticationFailure() {
         // return HttpStatus.OK to let your front-end know the request completed (no 401, it will cause you to go back to login again, loops, not good)

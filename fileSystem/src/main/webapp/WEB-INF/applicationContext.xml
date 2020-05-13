@@ -82,6 +82,10 @@
             </util:map>
         </property>
     </bean>
+    
+     <!-- a shared request cache is required for multiple http elements -->
+    <bean id="requestCache" class="org.springframework.security.web.savedrequest.HttpSessionRequestCache" />
+
     <!-- http config for REST services (AJAX interface) 
     =================================================== -->
     <security:http auto-config="true" use-expressions="true" pattern="/rest/**">
