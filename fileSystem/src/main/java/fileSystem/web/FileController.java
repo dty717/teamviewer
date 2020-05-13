@@ -179,7 +179,23 @@ public class FileController {
         }
         return "{\"state\":\"success\"}";
     }
-    
+    @RequestMapping(value = { "run" },produces = MediaType.APPLICATION_JSON_VALUE+";charset=utf-8")
+    @ResponseBody
+    public String run(@RequestParam("path")String path) {
+        try
+        {
+            File file=new File(path);
+            if(file.exists()){
+                java.awt.Desktop.getDesktop().open(file);
+                
+                //file.getAbsolutePath();            
+            }
+        } catch (Throwable t)
+        {
+            t.printStackTrace();
+        }
+        return "{\"state\":\"success\"}";
+    }
     
     //@Autowired
     @RequestMapping(value = { "/uploadFile" },produces = "application/json;charset=utf-8")
