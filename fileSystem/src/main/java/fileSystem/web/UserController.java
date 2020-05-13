@@ -32,6 +32,13 @@ public class UserController {
         return "/views/login.html";
     }
     
+    @RequestMapping(value="/ajaxLogin", method = RequestMethod.POST)
+    @ResponseBody
+    public String ajaxLogin(@RequestParam("username")String username,@RequestParam("password")String password) {
+        return "Hello World";
+    }
+    
+    
     public HttpHeaders getJsonHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
