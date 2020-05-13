@@ -20,33 +20,4 @@ public class HelloController {
         return "Hello World";
     }
     
-    @RequestMapping(value = { "/uploadFile" },produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public String uploadThing(@RequestParam(value="path", required = true)String path,@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
-        String orgName = multipartFile.getOriginalFilename();
-        try {
-            path=new String(path.getBytes("ISO-8859-1"),"utf-8");
-            orgName=new String(orgName.getBytes("ISO-8859-1"),"utf-8");
-        } catch(Exception e) {
-            
-        }
-        File file=new File(path);
-        if(!file.getParentFile().exists())
-            return "{\"error\":\"文件夹不存在\"}";
-        else if(file.isFile()){
-            return "{\"error\":\"文件已存在\"}";
-        }
-        File dest = new File(file.getAbsolutePath()+"/"+orgName);
-        try {
-            multipartFile.transferTo(dest);
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return "{\"error\":\"File "+orgName+"uploaded failed\"}";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "{\"error\":\"File "+orgName+"uploaded failed\"}";
-        }
-        return "{\"success\":\"upload finished\"}";
-    }
-    
 }

@@ -17,7 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <org.springframework.version>[4.3.14,)</org.springframework.version>
+    <org.springframework.version>5.1.0.RELEASE</org.springframework.version>
     <jackson.version>2.9.7</jackson.version>
     <velocity.version>1.7</velocity.version>
     <velocity-tools.version>2.0</velocity-tools.version>
@@ -31,6 +31,12 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+		<version>1.2</version>
+		<scope>runtime</scope>
+	</dependency>
     <dependency>
      <groupId>javax.servlet</groupId>
      <artifactId>javax.servlet-api</artifactId>
@@ -149,7 +155,7 @@
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-webmvc-portlet</artifactId>
-        <version>${org.springframework.version}</version>
+        <version>4.0.0.RELEASE</version>
     </dependency>
     <!-- Support for testing Spring applications with tools such as JUnit and TestNG
         This artifact is generally always defined with a 'test' scope for the 
