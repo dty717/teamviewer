@@ -106,6 +106,9 @@
     <mvc:annotation-driven>
 
     </mvc:annotation-driven>
+    
+    <mvc:default-servlet-handler/>
+
     <!--<mvc:resources mapping="/file/**" location="file:/usr/uploadfile/" />
     <mvc:resources mapping="/usr/**" location="file:/usr/github" />-->
     <mvc:resources mapping="/c/**" location="file:/C:/" />
