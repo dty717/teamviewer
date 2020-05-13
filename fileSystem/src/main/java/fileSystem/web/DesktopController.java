@@ -49,6 +49,11 @@ import com.google.gson.Gson;
 @Controller
 public class DesktopController {
     
+    @RequestMapping(value = { "/login"})
+    public String login() {
+        return "/views/login.html";
+    }
+    
     @Autowired
     DesktopService desktopService;
 
