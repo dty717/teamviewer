@@ -92,13 +92,13 @@
                 }
             }
 
-            function uploadFile(file)
+            function uploadFile(file,path)
             {
                 if (file == undefined)
                     return;
                 var formData = new FormData();
-        
-                formData.append("path", "/usr/github/darknet/data");
+                if(path!=undefined)
+                    formData.append("path", path);
                 formData.append("file", file);
                 $.ajax(
                 {
