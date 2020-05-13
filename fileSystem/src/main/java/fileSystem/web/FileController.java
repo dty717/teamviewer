@@ -27,7 +27,7 @@ public class FileController {
     //@Autowired
     @RequestMapping(value = { "/uploadFile" },produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String uploadThing(@RequestParam("path")String path,@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
+    public String uploadThing(@RequestParam(value = "path", required = false)String path,@RequestParam(value = "file", required = true) MultipartFile multipartFile) {
         String orgName = multipartFile.getOriginalFilename();
         if(path==null){
             path="";
