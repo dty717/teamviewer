@@ -12,18 +12,175 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.Charset;
 import java.util.*;
 
+@CrossOrigin(origins = "*")
 @Controller
 public class FileController {
 
     @Autowired
-    Gson gson;
-
+    Gson gson; 
+    
+    
+    @RequestMapping(value = { "fileList" }, method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String fileList(@RequestParam("path")String path) {
+        File file=new File(path);
+        if(!file.exists())
+            return "";
+        if(!file.isDirectory()){
+            return "";
+        }else {
+            File[] children=file.listFiles();
+            StringBuilder builder=new StringBuilder();
+            builder.append("[");
+            for(int i=0;i<children.length;i++){
+                builder.append("{\"name\":\""+children[i].getName());
+                builder.append("\",\"children\":[]");
+                /*if(children[i].isDirectory()){
+                    builder.append("\",\"size\":"+fileService.FileDirAccessCount(path+children[i].getName())*200+",\"children\":[]");
+                }else{
+                    builder.append("\",\"size\":"+fileService.FileAccessCount(path+children[i].getName())*200);
+                }*/
+                builder.append("}");
+                if(i!=children.length-1){
+                    builder.append(",");
+                }
+            }
+            builder.append("]");
+            return builder.toString();
+        }
+    }
+    
+    @RequestMapping(value = { "getFileList" }, method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String getFileList(@RequestParam("path")String  path) {
+        //model.addAttribute("user", getPrincipal());
+        //employeeManagerImpl.getEmployeeById(1);
+        //System.out.println(122);
+        
+        File file=new File(path);
+        if(!file.exists())
+            return "{\"type\":\"error\"}";
+        if(file.isDirectory()){
+            return "{\"type\":\"directory\",\"list\":"+gson.toJson(file.list())+"}";
+        }else {
+            return "{\"type\":\"file\"}";
+        }
+    }
+    
+    @RequestMapping(value = { "getFilePicture" },produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] getFilePicture(@RequestParam("path")String  path) {
+        //model.addAttribute("user", getPrincipal());
+        File file=new File(path);
+        if(!file.exists())
+            return "error:文件不存在".getBytes();
+        if(file.isDirectory()){
+            return "error:文件夹".getBytes();
+        }else {
+            try{
+                return FileUtils.readFileToByteArray(file);
+                //IOUtils.toByteArray(new FileInputStream(file));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "error".getBytes();
+    }
+    
+    @RequestMapping(value = { "getFile" },produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public byte[] getFile(@RequestParam("path")String  path,@RequestParam(value="charset",required=false)String charset) {
+        //model.addAttribute("user", getPrincipal());
+        File file=new File(path);
+        if(!file.exists())
+            return "error:文件不存在".getBytes();
+        if(file.isDirectory()){
+            return "error:文件夹".getBytes();
+        }else {
+            try{
+                if(file.getName().endsWith(".bat")||"gbk".equals(charset)){
+                    return FileUtils.readFileToString(file, "GBK").getBytes("UTF-8");
+                }else
+                    return FileUtils.readFileToByteArray(file);
+                    //IOUtils.toByteArray(new FileInputStream(file));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "error".getBytes();
+    }
+    
+    @RequestMapping(value = { "saveFile" },produces = MediaType.APPLICATION_JSON_VALUE+";charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String saveFile(@RequestParam("path")String path,@RequestParam("file")String  content,@RequestParam(value="charset",required=false)String charset) {
+        //model.addAttribute("user", getPrincipal());
+        File file=new File(path);
+        try {
+            if(!file.exists()){
+                path=new String(path.getBytes("ISO-8859-1"),"utf-8");
+                file=new File(path);
+            }
+            content=new String(content.getBytes("ISO-8859-1"),"utf-8");
+        } catch(Exception e) {
+            
+        }
+        if(file.exists()){
+            try {
+                OutputStreamWriter out;
+                if("gbk".equals(charset)){
+                    out=new OutputStreamWriter(new FileOutputStream(file), Charset.forName("GBK"));
+                }else{
+                    out=new OutputStreamWriter(new FileOutputStream(file),StandardCharsets.UTF_8);
+                }
+                out.write(content);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "{\"state\":\"success\"}";
+    }
+    
+    @RequestMapping(value = { "saveFile" },produces = MediaType.APPLICATION_JSON_VALUE+";charset=utf-8",method = RequestMethod.GET)
+    @ResponseBody
+    public String saveFile_get(@RequestParam("path")String path,@RequestParam("file")String  content,@RequestParam(value="charset",required=false)String charset) {
+        //model.addAttribute("user", getPrincipal());
+        File file=new File(path);
+        if(!file.exists()){
+            try {
+                path=new String(path.getBytes("ISO-8859-1"),"utf-8");
+                file=new File(path);
+                content=new String(content.getBytes("ISO-8859-1"),"utf-8");
+            } catch(Exception e) {
+                
+            }
+        }
+        if(file.exists()){
+            try {
+                OutputStreamWriter out;
+                if("gbk".equals(charset)){
+                    content=new String(content.getBytes("ISO-8859-1"),"utf-8");
+                    out=new OutputStreamWriter(new FileOutputStream(file), Charset.forName("GBK"));
+                }else{
+                    out=new OutputStreamWriter(new FileOutputStream(file),StandardCharsets.UTF_8);
+                }
+                out.write(content);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "{\"state\":\"success\"}";
+    }
+    
+    
     //@Autowired
     @RequestMapping(value = { "/uploadFile" },produces = "application/json;charset=utf-8")
     @ResponseBody
