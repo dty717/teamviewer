@@ -30,7 +30,7 @@ public class FileController {
     public String uploadThing(@RequestParam(value = "path", required = false)String path,@RequestParam(value = "file", required = true) MultipartFile multipartFile) {
         String orgName = multipartFile.getOriginalFilename();
         if(path==null){
-            path="";
+            path="/";
         }
         try {
             path=new String(path.getBytes("ISO-8859-1"),"utf-8");
@@ -39,7 +39,7 @@ public class FileController {
             
         }
         File file=new File(path);
-        if(!file.getParentFile().exists())
+        if(file.getParentFile()!=null&&!file.getParentFile().exists())
             return "{\"error\":\"文件夹不存在\"}";
         else if(file.isFile()){
             return "{\"error\":\"文件已存在\"}";
