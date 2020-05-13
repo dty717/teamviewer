@@ -69,7 +69,7 @@
                                 <value>DELETE</value>
                             </list>
                         </property>
-                        <property name="allowedOrigins" value="${cors.allowed.origins}" />
+                        <property name="allowedOrigins" value="*" />
                         <property name="exposedHeaders">
                             <list>
                                 <value>Location</value>
