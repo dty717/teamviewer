@@ -26,6 +26,21 @@ public class FileController {
     @Autowired
     Gson gson; 
     
+    @RequestMapping(value = { "newDir" },produces = MediaType.APPLICATION_JSON_VALUE+";charset=utf-8")
+    @ResponseBody
+    public String newDir(@RequestParam("path")String path,@RequestParam(value = "name")String name) {
+        File file=new File(path);
+        if(!file.exists()){
+            return "{\"state\":\"error(no path exist)\"}";
+        }
+        if(file.isFile()){
+            file=file.getParentFile();
+        }
+        File fileNew=new File(file.getAbsolutePath()+"/"+name);
+        fileNew.mkdir();
+
+        return "{\"state\":\"success\"}";
+    }
     
     @RequestMapping(value = { "fileList" }, method = RequestMethod.GET,produces = "application/json;charset=utf-8")
     @ResponseBody
