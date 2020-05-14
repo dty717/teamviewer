@@ -1,2 +1,2 @@
-timeout 10
+timeout 100
 mvn tomcat7:run

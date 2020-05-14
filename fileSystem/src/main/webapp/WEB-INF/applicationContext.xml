@@ -157,6 +157,14 @@
     <mvc:resources mapping="/D/**" location="file:/D:/" />
     <mvc:resources mapping="/d:/**" location="file:/D:/" />
     <mvc:resources mapping="/D:/**" location="file:/D:/" />
+    <mvc:resources mapping="/e/**" location="file:/E:/" />
+    <mvc:resources mapping="/E/**" location="file:/E:/" />
+    <mvc:resources mapping="/e:/**" location="file:/E:/" />
+    <mvc:resources mapping="/E:/**" location="file:/E:/" />
+    <mvc:resources mapping="/f/**" location="file:/F:/" />
+    <mvc:resources mapping="/F/**" location="file:/F:/" />
+    <mvc:resources mapping="/f:/**" location="file:/F:/" />
+    <mvc:resources mapping="/F:/**" location="file:/F:/" />
     <mvc:resources mapping="/**" location="/" />   
     
 </beans>
