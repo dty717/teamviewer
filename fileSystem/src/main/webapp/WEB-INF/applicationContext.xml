@@ -91,7 +91,7 @@
 		<security:intercept-url pattern="/logout" access="permitAll" />
 		<security:intercept-url pattern="/ajaxLogin" access="permitAll" />
     	<security:intercept-url pattern="/**" access="hasIpAddress('192.168.0.0/16') or 
-    	    hasIpAddress('127.0.0.1/32') or hasRole('ROLE_USER')" />
+    	    hasIpAddress('127.0.0.1/32') or hasIpAddress('fe80:0:0:0:bd96:88d:afef:72b0%4') or hasRole('ROLE_USER')" />
         
         <!--
 		<security:intercept-url pattern="/logout" access="permitAll" />
