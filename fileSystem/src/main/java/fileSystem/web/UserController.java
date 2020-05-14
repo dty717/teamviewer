@@ -38,7 +38,7 @@ public class UserController {
         return "Hello World";
     }
     
-    
+    /*
     public HttpHeaders getJsonHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
@@ -65,5 +65,6 @@ public class UserController {
         String userJson = new JSONSerializer().exclude("*.class", "*.password").serialize(authentication);
         return new ResponseEntity<String>(userJson, getJsonHeaders(), HttpStatus.OK);
     }
+    */
 
 }
