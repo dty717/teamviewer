@@ -28,7 +28,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class UserController {
     
     @RequestMapping(value = { "/login"})
-    public String login() {
+    public String login(HttpServletRequest req) {
+        System.out.println(req.getRemoteAddr()+" "+req.getRemoteHost()+" "+req.getRemotePort()+" "+req.getRequestedSessionId());
         return "/views/login.html";
     }
     
