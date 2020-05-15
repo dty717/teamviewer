@@ -306,12 +306,10 @@
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
             async function demo_test(fn) {
-                await sleep(2000);
-                fn();                
                 // Sleep in loop
                 for (let i = 0; i < 3; i++) {
                     //if (i === 3)
-                    await sleep(2000);
+                    await sleep(1000);
                     fn()
                 }
             }
@@ -326,6 +324,23 @@
                     100);
                 })
             }
+            monitor.ondblclick=function(e){
+                var _e=e;
+                demo_test(function(){
+                    monitor.src = "/monitor?type=dblclick&x=" + parseInt(_e.clientX /
+                    width * 100) + "&y=" + parseInt(_e.clientY / height *
+                    100);
+                })
+            }
+            monitor.oncontextmenu=function(e){
+                var _e=e;
+                demo_test(function(){
+                    monitor.src = "/monitor?type=oncontextmenu&x=" + parseInt(_e.clientX /
+                    width * 100) + "&y=" + parseInt(_e.clientY / height *
+                    100);
+                })
+            }
+            
             /*
             $("#monitor").on("click", function(e)
             {
@@ -339,20 +354,20 @@
 
             });
             */
-            $("#monitor").on("dblclick", function(e)
+            /*$("#monitor").on("dblclick", function(e)
             {
                 console.log("db")
                 monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.clientX /
                     width * 100) + "&y=" + parseInt(e.clientY / height *
                     100);
-            });
-            $("#monitor").on("contextmenu", function(e)
+            });*/
+            /*$("#monitor").on("contextmenu", function(e)
             {
                 monitor.src = "/monitor?type=contextmenu&x=" + parseInt(e.clientX /
                     width * 100) + "&y=" + parseInt(e.clientY / height *
                     100);
                 return false
-            });
+            });*/
             
             $('#exampleFormControlTextarea1').on('input', function (e) {
                 clearTimeout(changeTimeId);
