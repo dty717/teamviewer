@@ -165,7 +165,7 @@
                     fkey(e);
                 }    
             }
-            document.getElementById("monitor").onkeydown = fkey;
+            // document.getElementById("monitor").onkeydown = fkey;
         
             var wasPressed = false;
             var key_e = {
@@ -302,15 +302,43 @@
                 }
             };
             document.onwheel = runOnWheel;
-        
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            async function demo_test(fn) {
+                await sleep(2000);
+                fn();                
+                // Sleep in loop
+                for (let i = 0; i < 3; i++) {
+                    //if (i === 3)
+                    await sleep(2000);
+                    fn()
+                }
+            }
+
+            monitor.onclick=function(e){
+                
+                console.log("click")
+                var _e=e;
+                demo_test(function(){
+                    monitor.src = "/monitor?type=click&x=" + parseInt(_e.clientX /
+                    width * 100) + "&y=" + parseInt(_e.clientY / height *
+                    100);
+                })
+            }
+            /*
             $("#monitor").on("click", function(e)
             {
                 console.log("click")
-                monitor.src = "/monitor?type=click&x=" + parseInt(e.clientX /
-                    width * 100) + "&y=" + parseInt(e.clientY / height *
+                var _e=e;
+                demo_test(function(){
+                    monitor.src = "/monitor?type=click&x=" + parseInt(_e.clientX /
+                    width * 100) + "&y=" + parseInt(_e.clientY / height *
                     100);
-                $(this).focus();
+                })
+
             });
+            */
             $("#monitor").on("dblclick", function(e)
             {
                 console.log("db")
