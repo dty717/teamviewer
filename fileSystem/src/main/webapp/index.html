@@ -430,7 +430,12 @@
                 }
                 
             }
-
+            
+            if(location.host=="192.168.1.158:8881"){
+                document.title="楼下的"
+            }else if(location.host=="192.168.1.158:8880"){
+                document.title="楼上的"
+            }
             
         </script>
     </body>
