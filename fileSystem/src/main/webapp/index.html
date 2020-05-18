@@ -80,7 +80,6 @@
                 }
                 removeDragData(ev)
             }
-
             function dragOverHandler(ev)
             {
                 ev.preventDefault();
@@ -149,10 +148,10 @@
                 ) - 50;
             }
             var monitor = document.getElementById("monitor");
-            var height = getHeight(monitor.height)
-            var width = getWidth(monitor.width)
-            monitor.height = height;
-            monitor.width = width;
+            var height;// = getHeight(monitor.height)
+            var width;// = getWidth(monitor.width)
+            //monitor.height = height;
+            //monitor.width = width;
             var tag = true;
             //document.onkeypress = fkey
             document.onkeyup = function(e){
@@ -302,10 +301,15 @@
                 }
             };
             document.onwheel = runOnWheel;
+            monitor.onload=function(e){
+                height=this.height;
+                width=this.width;
+            }
+
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
-            async function demo_test(fn) {
+            async function continue_monitor(fn) {
                 // Sleep in loop
                 for (let i = 0; i < 3; i++) {
                     //if (i === 3)
@@ -315,29 +319,22 @@
             }
 
             monitor.onclick=function(e){
-                
                 console.log("click")
-                var _e=e;
-                demo_test(function(){
-                    monitor.src = "/monitor?type=click&x=" + parseInt(_e.clientX /
-                    width * 100) + "&y=" + parseInt(_e.clientY / height *
-                    100);
+                monitor.src = "/monitor?type=click&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                continue_monitor(function(){
+                    monitor.src = "/monitor?type=null";
                 })
             }
             monitor.ondblclick=function(e){
-                var _e=e;
-                demo_test(function(){
-                    monitor.src = "/monitor?type=dblclick&x=" + parseInt(_e.clientX /
-                    width * 100) + "&y=" + parseInt(_e.clientY / height *
-                    100);
+                monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                continue_monitor(function(){
+                    monitor.src = "/monitor?type=null";
                 })
             }
             monitor.oncontextmenu=function(e){
-                var _e=e;
-                demo_test(function(){
-                    monitor.src = "/monitor?type=oncontextmenu&x=" + parseInt(_e.clientX /
-                    width * 100) + "&y=" + parseInt(_e.clientY / height *
-                    100);
+                monitor.src = "/monitor?type=oncontextmenu&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                continue_monitor(function(){
+                    monitor.src = "/monitor?type=null";
                 })
             }
             
@@ -346,9 +343,9 @@
             {
                 console.log("click")
                 var _e=e;
-                demo_test(function(){
+                continue_monitor(function(){
                     monitor.src = "/monitor?type=click&x=" + parseInt(_e.clientX /
-                    width * 100) + "&y=" + parseInt(_e.clientY / height *
+                    width * 10000) + "&y=" + parseInt(_e.clientY / height *
                     100);
                 })
 
@@ -358,13 +355,13 @@
             {
                 console.log("db")
                 monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.clientX /
-                    width * 100) + "&y=" + parseInt(e.clientY / height *
+                    width * 10000) + "&y=" + parseInt(e.clientY / height *
                     100);
             });*/
             /*$("#monitor").on("contextmenu", function(e)
             {
                 monitor.src = "/monitor?type=contextmenu&x=" + parseInt(e.clientX /
-                    width * 100) + "&y=" + parseInt(e.clientY / height *
+                    width * 10000) + "&y=" + parseInt(e.clientY / height *
                     100);
                 return false
             });*/

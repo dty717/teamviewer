@@ -183,12 +183,12 @@ public class DesktopController {
                     robot.keyPress(x);
                     break;
                 case "click":
-                    robot.mouseMove((int)(rectangle.getWidth()*x/100), (int)(rectangle.getHeight()*y/100));
+                    robot.mouseMove((int)(rectangle.getWidth()*x/10000), (int)(rectangle.getHeight()*y/10000));
                     robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                     robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
                     break;
                 case "contextmenu":
-                    robot.mouseMove((int)(rectangle.getWidth()*x/100), (int)(rectangle.getHeight()*y/100));
+                    robot.mouseMove((int)(rectangle.getWidth()*x/10000), (int)(rectangle.getHeight()*y/10000));
                     robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                     robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
                     try {
@@ -200,7 +200,7 @@ public class DesktopController {
                     robot.keyRelease(KeyEvent.VK_CONTEXT_MENU);
                     break;
                 case "dblclick":
-                    robot.mouseMove((int)(rectangle.getWidth()*x/100), (int)(rectangle.getHeight()*y/100));
+                    robot.mouseMove((int)(rectangle.getWidth()*x/10000), (int)(rectangle.getHeight()*y/10000));
                     robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                     robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
                     
