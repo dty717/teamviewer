@@ -330,7 +330,15 @@
                     monitor.src = "/monitor?type=null";
                 })
             }
-
+            
+            monitor.ondrag=function(e){
+                monitor.src = "/monitor?type=mouseMove&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                continue_monitor(function(){
+                    monitor.src = "/monitor?type=null";
+                })
+            }
+            
+            
             monitor.onclick=function(e){
                 console.log("click")
                 monitor.src = "/monitor?type=click&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);

@@ -215,6 +215,9 @@ public class DesktopController {
                     robot.mouseMove((int)(rectangle.getWidth()*x/10000), (int)(rectangle.getHeight()*y/10000));
                     robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
                     break;
+                case "mouseMove":
+                    robot.mouseMove((int)(rectangle.getWidth()*x/10000), (int)(rectangle.getHeight()*y/10000));
+                    break;
             }
             
             
