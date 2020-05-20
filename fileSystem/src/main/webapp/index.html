@@ -318,23 +318,17 @@
                 }
             }
             
-            monitor.ondrag=function(e){
-                console.log(e,"ondrag");
-            }
             monitor.ondragend=function(e){
-                console.log(e,"ondragend");
-            }
-            monitor.ondragenter=function(e){
-                console.log(e,"ondragenter");
-            }
-            monitor.ondragleave=function(e){
-                console.log(e,"ondragleave");
-            }
-            monitor.ondragover=function(e){
-                console.log(e,"ondragover");
+                monitor.src = "/monitor?type=mouseRelease&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                continue_monitor(function(){
+                    monitor.src = "/monitor?type=null";
+                })
             }
             monitor.ondragstart=function(e){
-                console.log(e,"ondragstart");
+                monitor.src = "/monitor?type=mousePress&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                continue_monitor(function(){
+                    monitor.src = "/monitor?type=null";
+                })
             }
 
             monitor.onclick=function(e){
