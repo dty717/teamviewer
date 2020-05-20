@@ -317,6 +317,25 @@
                     fn()
                 }
             }
+            
+            monitor.ondrag=function(e){
+                console.log(e,"ondrag");
+            }
+            monitor.ondragend=function(e){
+                console.log(e,"ondragend");
+            }
+            monitor.ondragenter=function(e){
+                console.log(e,"ondragenter");
+            }
+            monitor.ondragleave=function(e){
+                console.log(e,"ondragleave");
+            }
+            monitor.ondragover=function(e){
+                console.log(e,"ondragover");
+            }
+            monitor.ondragstart=function(e){
+                console.log(e,"ondragstart");
+            }
 
             monitor.onclick=function(e){
                 console.log("click")
