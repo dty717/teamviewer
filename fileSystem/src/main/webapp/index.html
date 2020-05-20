@@ -158,12 +158,24 @@
                 if(e.target==document.body){
                     fkeyup(e);
                 }    
+                loadPicture();
             }
             document.onkeydown = function(e){
                 if(e.target==document.body){
                     fkey(e);
-                }    
+                } 
+                loadPicture();
             }
+            function loadPicture(){
+                if((new Date() - lastDate)<500){
+                    return;
+                }
+                continue_monitor(function(){
+                    monitor.src = "/monitor?type=null";
+                    lastDate=new Date();
+                })
+            }
+            
             // document.getElementById("monitor").onkeydown = fkey;
         
             var wasPressed = false;
@@ -299,6 +311,7 @@
                         })
                     });
                 }
+                loadPicture();
             };
             document.onwheel = runOnWheel;
             monitor.onload=function(e){
@@ -317,46 +330,39 @@
                     fn()
                 }
             }
+            var lastDate=new Date();
             
             monitor.ondragend=function(e){
                 monitor.src = "/monitor?type=mouseRelease&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                continue_monitor(function(){
-                    monitor.src = "/monitor?type=null";
-                })
+                loadPicture();
             }
             monitor.ondragstart=function(e){
                 monitor.src = "/monitor?type=mousePress&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                continue_monitor(function(){
-                    monitor.src = "/monitor?type=null";
-                })
+                loadPicture();
             }
+            var beforeEventXY={x:0,y:0};
             
-            monitor.ondrag=function(e){
-                monitor.src = "/monitor?type=mouseMove&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                continue_monitor(function(){
-                    monitor.src = "/monitor?type=null";
-                })
+            monitor.ondragover=function(e){
+                if((e.offsetX- beforeEventXY.x)*(e.offsetX- beforeEventXY.x)+(e.offsetY- beforeEventXY.y)*(e.offsetY- beforeEventXY.y)>500){
+                    beforeEventXY.x=e.offsetX;
+                    beforeEventXY.y=e.offsetY;
+                    monitor.src = "/monitor?type=mouseMove&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                }
             }
             
             
             monitor.onclick=function(e){
                 console.log("click")
                 monitor.src = "/monitor?type=click&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                continue_monitor(function(){
-                    monitor.src = "/monitor?type=null";
-                })
+                loadPicture();
             }
             monitor.ondblclick=function(e){
                 monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                continue_monitor(function(){
-                    monitor.src = "/monitor?type=null";
-                })
+                loadPicture();
             }
             monitor.oncontextmenu=function(e){
                 monitor.src = "/monitor?type=oncontextmenu&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                continue_monitor(function(){
-                    monitor.src = "/monitor?type=null";
-                })
+                loadPicture();
             }
             
             /*
