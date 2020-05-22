@@ -189,6 +189,7 @@ public class DesktopController {
                     break;
                 case "contextmenu":
                     robot.mouseMove((int)(rectangle.getWidth()*x/10000), (int)(rectangle.getHeight()*y/10000));
+                    /*
                     robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                     robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
                     try {
@@ -196,6 +197,7 @@ public class DesktopController {
                     } catch(Exception e) {
                         e.printStackTrace();
                     }
+                    */
                     robot.keyPress(KeyEvent.VK_CONTEXT_MENU);
                     robot.keyRelease(KeyEvent.VK_CONTEXT_MENU);
                     break;

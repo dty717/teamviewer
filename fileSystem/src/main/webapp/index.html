@@ -361,8 +361,9 @@
                 loadPicture();
             }
             monitor.oncontextmenu=function(e){
-                monitor.src = "/monitor?type=oncontextmenu&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                monitor.src = "/monitor?type=contextmenu&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
                 loadPicture();
+                return false;
             }
             
             /*
