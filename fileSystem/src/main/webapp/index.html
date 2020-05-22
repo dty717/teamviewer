@@ -335,12 +335,10 @@
             monitor.ondragend=function(e){
                 monitor.src = "/monitor?type=mouseRelease&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
                 loadPicture();
-                return false;
             }
             monitor.ondragstart=function(e){
                 monitor.src = "/monitor?type=mousePress&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
                 loadPicture();
-                return false;
             }
             var beforeEventXY={x:0,y:0};
             
@@ -350,7 +348,6 @@
                     beforeEventXY.y=e.offsetY;
                     monitor.src = "/monitor?type=mouseMove&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
                 }
-                return false;
             }
             
             
