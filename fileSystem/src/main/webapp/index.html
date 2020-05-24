@@ -48,7 +48,9 @@
         <button  onclick="openFile()">download</button>
         <button  onclick="sendKey(KeyEvent.VK_BACK_SPACE)">backspace</button>
         <button  onclick="sendKey(KeyEvent.VK_WINDOWS)">window</button>
-
+        <button  onclick="record()">record</button>
+        <button  onclick="loadRecord()">loadRecord</button>
+        <audio id="audio" src="" style="display:none" ></audio>
         <textarea class="form-control  badge-light textare-margin" id="exampleFormControlTextarea1" rows="3"></textarea>
         <script type="text/javascript" charset="utf-8">
             const KeyEvent={VK_BACK_SPACE:8,VK_WINDOWS:0x020C};
@@ -176,7 +178,42 @@
                 })
             }
             
-            // document.getElementById("monitor").onkeydown = fkey;
+            var sound = document.getElementById("audio");
+            
+            function loadRecord(){
+                if(ended){
+                    ended=false;
+                    sound.src="/recordAudio?"+Math.random()*1000
+                    sound.play();    
+                }else{
+                    ended=true;
+                    sound.currentTime = 0;   
+                    sound.pause();
+                }
+                
+            }
+            var ended=true;
+            sound.onended=function(e){
+                ended=true;
+            }
+            
+            function record(){
+                $.ajax(
+                {
+                    url: "record",
+                    method: "GET",
+                    data:
+                    {
+                        time: 20,
+                        maxTime: 60
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: (function(msg)
+                    {
+                        //console.log(msg, msg.type)
+                    })
+                });
+            }
         
             var wasPressed = false;
             var key_e = {

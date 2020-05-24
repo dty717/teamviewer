@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
@@ -239,7 +242,47 @@ public class DesktopController {
         }
         
     }
-   
+    @RequestMapping(value = "/recordAudio")
+    @ResponseBody
+    public byte[] recordAudio(HttpServletResponse response) {
+        try {
+            response.setContentType("application/wav");
+            response.setHeader("Content-Disposition", "attachment; filename=\"recorded.wav\""); 
+            String relPath = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+            File audioRecord = new File(relPath+"/fileSystem/NAudio/recorded.wav");
+            return FileUtils.readFileToByteArray(audioRecord);
+        } catch (IOException ex) {
+            throw new RuntimeException("IOError writing file to output stream");
+        }
+    }
+    
+    
+    @RequestMapping(value = "/record",produces = MediaType.TEXT_PLAIN_VALUE + "; charset=utf-8")
+    @ResponseBody
+    public String record(@RequestParam(value = "time", required = false,defaultValue="20")Integer time,
+        @RequestParam(value = "maxTime", required = false,defaultValue="40")Integer maxTime){
+        String relPath = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+        File audioRecorder = new File(relPath+"/fileSystem/NAudio/");
+        if(audioRecorder.exists()){
+            System.out.println(audioRecorder.getAbsolutePath());
+            try {
+                Runtime.getRuntime().exec("cmd /c  cd \""+audioRecorder.getAbsolutePath()+
+                    "\" && (start ConsoleApp2.exe -time "+time+" -maxTime "+maxTime+")");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            
+        }
+        
+        return "ok";
+    }
+    
+            
+        
+        
+        
+    
     public static void main(String[] arg){
         try{
           JSch jsch=new JSch();  
