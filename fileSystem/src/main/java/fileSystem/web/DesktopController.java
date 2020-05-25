@@ -277,11 +277,7 @@ public class DesktopController {
         
         return "ok";
     }
-    
             
-        
-        
-        
     
     public static void main(String[] arg){
         try{

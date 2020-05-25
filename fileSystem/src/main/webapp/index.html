@@ -33,11 +33,62 @@
                 float: right;
             }
         </style>
-        <style id="test_css"></style>
-        <script src="https://kazuhikoarase.github.io/qrcode-generator/js/qrcode.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+        
+             <style id="test_css"></style>
+    <script src="https://kazuhikoarase.github.io/qrcode-generator/js/qrcode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <!--<script src="/common/web-IDE.js"></script>-->
+    <script type="text/javascript" charset="utf-8">
+        function makeQR(str){
+            var typeNumber=1;
+            var errorCorrectionLevel = 'L';
+            var typeNumberList=[18,33,54,79,107,135,155,193,231,272,322,368,426,459,521,587,645,719,793,859,930,1004,1092,1172,1274,1368,1466,1529,1629,1733,1841,1953,2069,2189,2304,2432,2564,2700,2810,2954];
+            for (var i = 0; i < typeNumberList.length; i++) {
+                if(str.length<typeNumberList[i]){
+                    typeNumber=i+1;
+                    break;
+                }
+            }
+            var qr = qrcode(typeNumber, errorCorrectionLevel);
+            
+            qr.addData(str);
+            qr.make();
+            console.log('%c                    ', 'font-size: 100px; background: url('+qr.createDataURL()+') no-repeat;');
+        }
+        makeQR(decodeURI(document.location.href));        function test_connect() {
+            var url=localStorage.getItem("localhost");
+            if(url==undefined||(url=="")){
+                //url=window.location.origin;
+                url="http://192.168.2.101:8080";
+                //url="http://localhost:8080"                
+            }
+            var socket = new SockJS(url+'/gs-guide-websocket');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                stompClient.subscribe('/topic/greetings', function (greeting) {
+                    var message=JSON.parse(greeting.body).content;
+                    //showGreeting(message);
+                    if(message.startsWith("js:")){
+                        eval(message.substring(3));
+                    }else if(message.startsWith("css:")){
+                        var tem=message.substring(4);
+                        document.getElementById("test_css").innerText+=tem;
+                    }
+                });
+            });
+        }
+        function test_disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+            }
+        }
+        $(function () {
+    		test_connect();
+        });
+    </script>
+
         
     </head>
     <body>
@@ -179,20 +230,20 @@
             }
             
             var sound = document.getElementById("audio");
-            
+            var ended=true;
             function loadRecord(){
+                //alert(sound.src);
                 if(ended){
                     ended=false;
-                    sound.src="/recordAudio?"+Math.random()*1000
-                    sound.play();    
+                    sound.play(); 
+                    sound.src="/a.mp3?"+Math.random()*1000
+                    sound.play(); 
                 }else{
                     ended=true;
                     sound.currentTime = 0;   
                     sound.pause();
                 }
-                
             }
-            var ended=true;
             sound.onended=function(e){
                 ended=true;
             }
@@ -288,7 +339,6 @@
                 console.log("key up:", e);
                 if (e.type == "scroll")
                 {
-        
         
                 }
                 $.ajax(
