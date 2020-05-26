@@ -246,10 +246,10 @@ public class DesktopController {
     @ResponseBody
     public byte[] recordAudio(HttpServletResponse response) {
         try {
-            response.setContentType("application/wav");
-            response.setHeader("Content-Disposition", "attachment; filename=\"recorded.wav\""); 
+            response.setContentType("application/mp3");
+            response.setHeader("Content-Disposition", "attachment; filename=\"recorded.mp3\""); 
             String relPath = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-            File audioRecord = new File(relPath+"/fileSystem/NAudio/recorded.wav");
+            File audioRecord = new File(relPath+"/fileSystem/NAudio/recorded.mp3");
             return FileUtils.readFileToByteArray(audioRecord);
         } catch (IOException ex) {
             throw new RuntimeException("IOError writing file to output stream");
@@ -264,7 +264,7 @@ public class DesktopController {
         String relPath = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
         File audioRecorder = new File(relPath+"/fileSystem/NAudio/");
         if(audioRecorder.exists()){
-            System.out.println(audioRecorder.getAbsolutePath());
+            //System.out.println(audioRecorder.getAbsolutePath());
             try {
                 Runtime.getRuntime().exec("cmd /c  cd \""+audioRecorder.getAbsolutePath()+
                     "\" && (start ConsoleApp2.exe -time "+time+" -maxTime "+maxTime+")");

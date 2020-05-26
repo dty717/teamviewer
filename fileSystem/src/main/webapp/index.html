@@ -236,7 +236,7 @@
                 if(ended){
                     ended=false;
                     sound.play(); 
-                    sound.src="/a.mp3?"+Math.random()*1000
+                    sound.src="/recordAudio?"+Math.random()*1000
                     sound.play(); 
                 }else{
                     ended=true;
@@ -249,14 +249,22 @@
             }
             
             function record(){
+                var message = $('#exampleFormControlTextarea1').val();
+                var time=parseInt(message);
+                if(time>0){
+                    
+                }else{
+                    time=20;
+                }
+                $('#exampleFormControlTextarea1').val("");
                 $.ajax(
                 {
                     url: "record",
                     method: "GET",
                     data:
                     {
-                        time: 20,
-                        maxTime: 60
+                        time: time,
+                        maxTime: 3*time
                     },
                     contentType: "application/json; charset=utf-8",
                     success: (function(msg)
