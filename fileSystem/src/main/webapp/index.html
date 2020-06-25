@@ -35,7 +35,6 @@
         </style>
         
              <style id="test_css"></style>
-    <script src="https://kazuhikoarase.github.io/qrcode-generator/js/qrcode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
@@ -235,7 +234,7 @@
                             return;
                         }
                     }
-                    monitor.src = "/monitor?type=null";
+                    monitor.src = "/monitor?type=null&r="+Math.random()*1000;
                     lastDate=new Date();
                     hasLoaded=false;
                 })
