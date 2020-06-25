@@ -226,15 +226,15 @@
                     hasLoaded=false;
                     lastDate=new Date();
                 }
-                if(!hasLoaded){
-                    if((new Date() - lastDate)<5000){
+                continue_monitor(function(){
+                    if((new Date() - lastDate)<500){
                         return;
                     }
-                }
-                if((new Date() - lastDate)<500){
-                    return;
-                }
-                continue_monitor(function(){
+                    if(!hasLoaded){
+                        if((new Date() - lastDate)<5000){
+                            return;
+                        }
+                    }
                     monitor.src = "/monitor?type=null";
                     lastDate=new Date();
                     hasLoaded=false;
@@ -430,7 +430,12 @@
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
+            var continue_monitor_in_use=false;
             async function continue_monitor(fn) {
+                if(continue_monitor_in_use){
+                    return;
+                }
+                continue_monitor_in_use=true;
                 // Sleep in loop
                 for (let i = 0; i < 3; i++) {
                     //if (i === 3)
@@ -438,19 +443,17 @@
                     if(hasLoaded)
                         fn()
                 }
+                continue_monitor_in_use=false;
             }
             var lastDate=new Date();
             
             monitor.ondragend=function(e){
                 monitor.src = "/monitor?type=mouseRelease&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                hasLoaded=false;
-                lastDate=new Date();
-                loadPicture();
+                loadPicture(true);
             }
             monitor.ondragstart=function(e){
                 monitor.src = "/monitor?type=mousePress&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                hasLoaded=false;
-                loadPicture();
+                loadPicture(true);
             }
             var beforeEventXY={x:0,y:0};
             
@@ -467,8 +470,7 @@
             monitor.onclick=function(e){
                 console.log("click")
                 monitor.src = "/monitor?type=click&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                hasLoaded=false;
-                loadPicture();
+                loadPicture(true);
             }
             monitor.ondblclick=function(e){
                 monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
