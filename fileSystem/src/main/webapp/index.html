@@ -221,7 +221,11 @@
                 } 
                 loadPicture();
             }
-            function loadPicture(){
+            function loadPicture(loading){
+                if(loading){
+                    hasLoaded=false;
+                    lastDate=new Date();
+                }
                 if(!hasLoaded){
                     if((new Date() - lastDate)<5000){
                         return;
@@ -439,10 +443,13 @@
             
             monitor.ondragend=function(e){
                 monitor.src = "/monitor?type=mouseRelease&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                hasLoaded=false;
+                lastDate=new Date();
                 loadPicture();
             }
             monitor.ondragstart=function(e){
                 monitor.src = "/monitor?type=mousePress&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                hasLoaded=false;
                 loadPicture();
             }
             var beforeEventXY={x:0,y:0};
@@ -452,6 +459,7 @@
                     beforeEventXY.x=e.offsetX;
                     beforeEventXY.y=e.offsetY;
                     monitor.src = "/monitor?type=mouseMove&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                    hasLoaded=false;
                 }
             }
             
@@ -459,14 +467,17 @@
             monitor.onclick=function(e){
                 console.log("click")
                 monitor.src = "/monitor?type=click&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                hasLoaded=false;
                 loadPicture();
             }
             monitor.ondblclick=function(e){
                 monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                hasLoaded=false;
                 loadPicture();
             }
             monitor.oncontextmenu=function(e){
                 monitor.src = "/monitor?type=contextmenu&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                hasLoaded=false;
                 loadPicture();
                 return false;
             }
