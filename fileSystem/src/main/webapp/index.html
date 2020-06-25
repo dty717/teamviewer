@@ -207,10 +207,8 @@
             //monitor.width = width;
             var tag = true;
             //document.onkeypress = fkey
-            var hasLoaded=true;
-            monitor.onload=function(e){
-                hasLoaded=true;
-            }
+            var hasLoaded=false;
+            
             document.onkeyup = function(e){
                 if(e.target==document.body){
                     fkeyup(e);
@@ -422,6 +420,7 @@
             monitor.onload=function(e){
                 height=this.height;
                 width=this.width;
+                hasLoaded=true;
             }
 
             function sleep(ms) {
