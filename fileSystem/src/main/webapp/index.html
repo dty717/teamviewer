@@ -91,7 +91,7 @@
         
     </head>
     <body>
-        <img id="monitor" src="/monitor?type=null" alt="The Scream"/>
+        <img id="monitor"  alt="The Scream"/>
         
         
         <button  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">upload</button>
@@ -425,6 +425,7 @@
                 width=this.width;
                 hasLoaded=true;
             }
+            monitor.src = "/monitor?type=null&r="+Math.random()*1000;
 
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
