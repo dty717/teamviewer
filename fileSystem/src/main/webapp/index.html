@@ -463,6 +463,7 @@
                     beforeEventXY.y=e.offsetY;
                     monitor.src = "/monitor?type=mouseMove&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
                     hasLoaded=false;
+                    lastDate=new Date();
                 }
             }
             
@@ -474,13 +475,11 @@
             }
             monitor.ondblclick=function(e){
                 monitor.src = "/monitor?type=dblclick&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                hasLoaded=false;
-                loadPicture();
+                loadPicture(true);
             }
             monitor.oncontextmenu=function(e){
                 monitor.src = "/monitor?type=contextmenu&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
-                hasLoaded=false;
-                loadPicture();
+                loadPicture(true);
                 return false;
             }
             
