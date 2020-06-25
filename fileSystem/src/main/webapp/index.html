@@ -207,6 +207,10 @@
             //monitor.width = width;
             var tag = true;
             //document.onkeypress = fkey
+            var hasLoaded=true;
+            monitor.onload=function(e){
+                hasLoaded=true;
+            }
             document.onkeyup = function(e){
                 if(e.target==document.body){
                     fkeyup(e);
@@ -220,12 +224,18 @@
                 loadPicture();
             }
             function loadPicture(){
+                if(!hasLoaded){
+                    if((new Date() - lastDate)<5000){
+                        return;
+                    }
+                }
                 if((new Date() - lastDate)<500){
                     return;
                 }
                 continue_monitor(function(){
                     monitor.src = "/monitor?type=null";
                     lastDate=new Date();
+                    hasLoaded=false;
                 })
             }
             
@@ -422,7 +432,8 @@
                 for (let i = 0; i < 3; i++) {
                     //if (i === 3)
                     await sleep(1000);
-                    fn()
+                    if(hasLoaded)
+                        fn()
                 }
             }
             var lastDate=new Date();
