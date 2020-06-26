@@ -449,7 +449,7 @@
             var lastDate=new Date();
             
             monitor.ondragend=function(e){
-                monitor.src = "/monitor?type=mouseRelease&x=" + parseInt(e.offsetX / width * 10000) + "&y=" + parseInt(e.offsetY / height * 10000);
+                monitor.src = "/monitor?type=mouseRelease&x=" + parseInt(beforeEventXY.x / width * 10000) + "&y=" + parseInt(beforeEventXY.y / height * 10000);
                 loadPicture(true);
             }
             monitor.ondragstart=function(e){
