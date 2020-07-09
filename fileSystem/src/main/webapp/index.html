@@ -101,6 +101,7 @@
         <button  onclick="sendKey(KeyEvent.VK_WINDOWS)">window</button>
         <button  onclick="record()">record</button>
         <button  onclick="loadRecord()">loadRecord</button>
+        <button  onclick="copyText()">copy</button>
         <audio id="audio" src="" style="display:none" ></audio>
         <textarea class="form-control  badge-light textare-margin" id="exampleFormControlTextarea1" rows="3"></textarea>
         <script type="text/javascript" charset="utf-8">
@@ -149,7 +150,6 @@
                     ev.dataTransfer.clearData();
                 }
             }
-            
             
             function uploadFile(file){
              
@@ -239,6 +239,41 @@
                     lastDate=new Date();
                     hasLoaded=false;
                 })
+            }
+            function copyText(){
+                $.ajax({
+                    url: "copy",
+                    method: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    success: (function(msg) {
+                        _copy(msg);
+                    })
+                });
+            }
+            function _copy(str) {
+                if (typeof copy == 'function') {
+                    copy(str);
+                } else {
+                    var node = document.createElement('pre');
+                    cp = str;
+                    node.innerText = cp;
+                    document.body.appendChild(node)
+                    if (document.selection) {
+                        var range = document.body.createTextRange();
+                        range.moveToElementText(node);
+                        range.select();
+                    } else if (window.getSelection) {
+                        var range = document.createRange();
+                        range.selectNodeContents(node);
+                        window.getSelection().removeAllRanges();
+                        window.getSelection().addRange(range);
+                    }
+                    document.execCommand('copy')
+                    node.style.display = 'none'
+                    setTimeout(function() {
+                        node.remove()
+                    }, 100)
+                }
             }
             
             var sound = document.getElementById("audio");

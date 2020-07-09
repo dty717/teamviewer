@@ -24,7 +24,10 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 // import javax.comm.CommPortIdentifier;
 // import javax.comm.PortInUseException;
 // import javax.comm.SerialPort;
@@ -268,6 +271,23 @@ public class DesktopService{
         }
         return "ok,my master";
     }
+    
+    public String copy(){
+        try {
+            Robot robot=new Robot();
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_C);
+            robot.keyRelease(KeyEvent.VK_C);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            Clipboard clipboard= Toolkit.getDefaultToolkit().getSystemClipboard();
+            String copyData=(String)clipboard.getData(DataFlavor.stringFlavor); 
+            return copyData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+    
     public void openSite(String url){
         try {
             Runtime.getRuntime().exec(

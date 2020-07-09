@@ -175,6 +175,12 @@ public class DesktopController {
         return "ok";
     }
     
+    @RequestMapping(value = "/copy", method = RequestMethod.GET)
+    @ResponseBody
+    public String copy(){
+        return desktopService.copy();
+    }
+    
     @RequestMapping(value = "/monitor", method = RequestMethod.GET, produces = "image/jpg")
     @ResponseBody
     public byte[] getFile(@RequestParam(value = "type", required = false)String type,
@@ -255,6 +261,8 @@ public class DesktopController {
             throw new RuntimeException("IOError writing file to output stream");
         }
     }
+    
+    
     
     
     @RequestMapping(value = "/record",produces = MediaType.TEXT_PLAIN_VALUE + "; charset=utf-8")
