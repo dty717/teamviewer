@@ -240,17 +240,22 @@
                     hasLoaded=false;
                 })
             }
-            function copyText(){
+
+            function copyText() {
                 $.ajax({
                     url: "copy",
                     method: "GET",
-                    contentType: "application/json; charset=utf-8",
+                    contentType: "text/plain",
                     success: (function(msg) {
                         _copy(msg);
-                    })
+                        console.log(msg)
+                    }),
+                    error: function(e) {
+                        console.log(e)
+
+                    }
                 });
-            }
-            function _copy(str) {
+            }            function _copy(str) {
                 if (typeof copy == 'function') {
                     copy(str);
                 } else {

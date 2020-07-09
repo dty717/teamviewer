@@ -276,12 +276,17 @@ public class DesktopService{
         try {
             Robot robot=new Robot();
             robot.keyPress(KeyEvent.VK_CONTROL);
+            Thread.sleep(100);
             robot.keyPress(KeyEvent.VK_C);
+            Thread.sleep(100);
             robot.keyRelease(KeyEvent.VK_C);
+            Thread.sleep(100);
             robot.keyRelease(KeyEvent.VK_CONTROL);
+            Thread.sleep(1000);
             Clipboard clipboard= Toolkit.getDefaultToolkit().getSystemClipboard();
-            String copyData=(String)clipboard.getData(DataFlavor.stringFlavor); 
-            return copyData;
+            Object copyData=clipboard.getData(DataFlavor.stringFlavor); 
+            System.out.println(copyData);
+            return (String)copyData;
         } catch (Exception e) {
             e.printStackTrace();
         }
