@@ -48,6 +48,13 @@
 	
 	<bean id="gson" class="com.google.gson.Gson"></bean>
 	<bean id="robot" class="java.awt.Robot"></bean>
+    
+    <bean id="objMap" class="java.util.HashMap" scope="singleton" >
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.Object">
+            </map>
+        </constructor-arg>
+    </bean>
 
     <bean id="corsSource" class="org.springframework.web.cors.UrlBasedCorsConfigurationSource">
         <property name="corsConfigurations">
