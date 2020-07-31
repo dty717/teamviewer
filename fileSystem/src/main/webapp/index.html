@@ -95,6 +95,7 @@
         <img id="monitor"  alt="The Scream"/>
         
         
+        <button  onclick="monitor_screen_click(this);">monitor</button>
         <button  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">upload</button>
         <button  onclick="openFile()">download</button>
         <button  onclick="sendKey(KeyEvent.VK_BACK_SPACE)">backspace</button>
@@ -106,6 +107,40 @@
         <textarea class="form-control  badge-light textare-margin" id="exampleFormControlTextarea1" rows="3"></textarea>
         <script type="text/javascript" charset="utf-8">
             const KeyEvent={VK_BACK_SPACE:8,VK_WINDOWS:0x020C};
+            
+            var monitoring=false;
+            var monitoring_Interval;
+            var monitor_time=2000;
+            function monitor_screen_click(obj){
+                if(monitoring){
+                    clearInterval(monitoring_Interval)
+                    obj.innerText='monitor'
+                }else{
+                    monitoring_Interval=setInterval(function(){
+                        monitor_screen();
+                    },monitor_time)
+                    obj.innerText='monitoring'
+                }
+                monitoring=!monitoring;
+                
+            }
+            function getBase64Image(img) {
+                if(!img){
+                    return;
+                }
+                var canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+                return ctx.getImageData(0,0,canvas.width,canvas.height)
+            }
+            var screenBefore;
+            function monitor_screen(){
+                screenBefore=getBase64Image(monitor);
+                monitor.src = "/monitor?type=null&r="+Math.random()*1000;
+            }
+            
             
             path="login";
             currentFile="";
@@ -201,6 +236,7 @@
                 ) - 50;
             }
             var monitor = document.getElementById("monitor");
+            
             var height;// = getHeight(monitor.height)
             var width;// = getWidth(monitor.width)
             //monitor.height = height;
@@ -255,7 +291,8 @@
 
                     }
                 });
-            }            function _copy(str) {
+            }            
+            function _copy(str) {
                 if (typeof copy == 'function') {
                     copy(str);
                 } else {
@@ -461,13 +498,52 @@
                 loadPicture();
             };
             document.onwheel = runOnWheel;
-            monitor.onload=function(e){
-                height=this.height;
-                width=this.width;
-                hasLoaded=true;
-            }
+            monitor.onload = function(e) {
+                height = this.height;
+                width = this.width;
+                hasLoaded = true;
+                if (monitoring) {
+                    if (compare(getBase64Image(this).data, screenBefore.data)) {
+                    } else {
+                        var token = "aa1fn1dy4uhxs5bc5ez5y8o2cseqk3";
+                        var user = "ud4eitjy6yqtoc9dmgabnkfhig4op8"
+                        var url = "https://api.pushover.net/1/messages.json"
+                        var formData = new FormData();
+                        formData.append("token", token);
+                        formData.append("user", user);
+                        formData.append("message", window.location.host+" screen is moving");
+                        formData.append("html", 1);
+                        new Promise((resolve, reject) => {
+                            $.ajax({
+                                url: url,
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                type: 'POST',
+                                success: function(response) {
+                                    resolve(response);
+                                }
+                            });
+                        })
+                    }
+                }
+            }            
             monitor.src = "/monitor?type=null&r="+Math.random()*1000;
-
+            var monitor_screen_dif=10000;
+            function compare(arrayA,arrayB){
+                var len=arrayA.length;
+                var dif=0;
+                for(var i=0;i<len;i++){
+                    if(arrayA[i]!=arrayB[i]){
+                        dif++;
+                        if(dif>monitor_screen_dif){
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
