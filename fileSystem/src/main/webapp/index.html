@@ -93,7 +93,7 @@
     </head>
     <body>
         <img id="monitor"  alt="The Scream"/>
-        
+        <canvas id="canvas" style="z-index:0;margin-top:-150px;"></canvas>
         
         <button  onclick="monitor_screen_click(this);">monitor</button>
         <button  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">upload</button>
@@ -103,6 +103,7 @@
         <button  onclick="record()">record</button>
         <button  onclick="loadRecord()">loadRecord</button>
         <button  onclick="copyText()">copy</button>
+        <button id="snapshot">Take snapshot</button>
         <audio id="audio" src="" style="display:none" ></audio>
         <textarea class="form-control  badge-light textare-margin" id="exampleFormControlTextarea1" rows="3"></textarea>
         <script type="text/javascript" charset="utf-8">
@@ -497,6 +498,118 @@
                 }
                 loadPicture();
             };
+            $("#snapshot").onclick = function() {
+                if (canvas.style.zIndex = 3) {
+                    canvas.style.zIndex = 0;
+                } else {
+                    canvas.style.zIndex = 3;
+                    canvas.width = monitor.width;
+                    canvas.height = monitor.height;
+                    canvas.style.marginTop = -monitor.height + "px";
+                    ctx.drawImage(monitor, 0, 0,
+                        monitor.width,
+                        monitor.height);
+                }
+
+            }
+            
+                        // calculate where the canvas is on the window
+            // (used to help calculate mouseX/mouseY)
+            var $canvas = $("#canvas");
+            var canvasOffset = $canvas.offset();
+            var offsetX = canvasOffset.left;
+            var offsetY = canvasOffset.top;
+            var rect_width,rect_height;
+            var scrollX = $canvas.scrollLeft();
+            var scrollY = $canvas.scrollTop();
+
+            // this flage is true when the user is dragging the mouse
+            var isDown = false;
+
+            // these vars will hold the starting mouse position
+            var startX;
+            var startY;
+
+            function handleMouseDown(e)
+            {
+                e.preventDefault();
+                e.stopPropagation();
+                canvasOffset = $canvas.offset();
+                offsetX = canvasOffset.left;
+                offsetY = canvasOffset.top;
+                // save the starting x/y of the rectangle
+                startX = parseInt(e.clientX - offsetX+$(document).scrollLeft());
+                startY = parseInt(e.clientY - offsetY+$(document).scrollTop());
+
+                // set a flag indicating the drag has begun
+                isDown = true;
+            }
+
+            function handleMouseUp(e)
+            {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // the drag is over, clear the dragging flag
+                isDown = false;
+            }
+
+            function handleMouseOut(e)
+            {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // the drag is over, clear the dragging flag
+                isDown = false;
+            }
+
+            function handleMouseMove(e)
+            {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // if we're not dragging, just return
+                if (!isDown)
+                {
+                    return;
+                }
+
+                // get the current mouse position
+                mouseX = parseInt(e.clientX - offsetX+$(document).scrollLeft());
+                mouseY = parseInt(e.clientY - offsetY+$(document).scrollTop());
+
+                // calculate the rectangle width/height based
+                // on starting vs current mouse position
+                rect_width = mouseX - startX;
+                rect_height = mouseY - startY;
+
+                // draw a new rect from the start position 
+                // to the current mouse position
+                ctx.strokeRect(startX, startY, rect_width, rect_height);
+                console.log(startX, startY, rect_width, rect_height);
+
+            }
+            
+            // listen for mouse events
+            $("#canvas").mousedown(function(e)
+            {
+                handleMouseDown(e);
+            });
+            
+            $("#canvas").mousemove(function(e)
+            {
+                handleMouseMove(e);
+            });
+            $("#canvas").mouseup(function(e)
+            {
+                handleMouseUp(e);
+            });
+            $("#canvas").mouseout(function(e)
+            {
+                handleMouseOut(e);
+            });
+            
+            
             document.onwheel = runOnWheel;
             monitor.onload = function(e) {
                 height = this.height;
