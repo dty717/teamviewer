@@ -498,8 +498,8 @@
                 }
                 loadPicture();
             };
-            $("#snapshot").onclick = function() {
-                if (canvas.style.zIndex = 3) {
+            $("#snapshot").click(function() {
+                if (canvas.style.zIndex == 3) {
                     canvas.style.zIndex = 0;
                 } else {
                     canvas.style.zIndex = 3;
@@ -510,12 +510,13 @@
                         monitor.width,
                         monitor.height);
                 }
-
-            }
+            })
             
                         // calculate where the canvas is on the window
             // (used to help calculate mouseX/mouseY)
             var $canvas = $("#canvas");
+            const canvas = window.canvas = document.querySelector('canvas');
+            var ctx = canvas.getContext("2d");
             var canvasOffset = $canvas.offset();
             var offsetX = canvasOffset.left;
             var offsetY = canvasOffset.top;
@@ -525,6 +526,7 @@
 
             // this flage is true when the user is dragging the mouse
             var isDown = false;
+            var oldImage=new Image();
 
             // these vars will hold the starting mouse position
             var startX;
@@ -541,6 +543,22 @@
                 startX = parseInt(e.clientX - offsetX+$(document).scrollLeft());
                 startY = parseInt(e.clientY - offsetY+$(document).scrollTop());
 
+                // set a flag indicating the drag has begun
+                isDown = true;
+            }
+
+             function handleMouseDown(e)
+            {
+                e.preventDefault();
+                e.stopPropagation();
+                canvasOffset = $canvas.offset();
+                offsetX = canvasOffset.left;
+                offsetY = canvasOffset.top;
+                // save the starting x/y of the rectangle
+                startX = parseInt(e.clientX - offsetX+$(document).scrollLeft());
+                startY = parseInt(e.clientY - offsetY+$(document).scrollTop());
+
+                oldImage.src=canvas.toDataURL("image/png");
                 // set a flag indicating the drag has begun
                 isDown = true;
             }
@@ -578,6 +596,12 @@
                 mouseX = parseInt(e.clientX - offsetX+$(document).scrollLeft());
                 mouseY = parseInt(e.clientY - offsetY+$(document).scrollTop());
 
+                // Put your mousemove stuff here
+                
+                ctx.drawImage(oldImage, 0, 0,
+                        canvas.width,
+                        canvas.height);
+                
                 // calculate the rectangle width/height based
                 // on starting vs current mouse position
                 rect_width = mouseX - startX;
