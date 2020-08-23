@@ -16,9 +16,8 @@
             .textare-margin {
                 margin: 0 auto;
                 width: 80%;
-                position: fixed;
                 bottom: -30px;
-                left: 10%;
+                left: 0%;
             }
     
             .float_left {
@@ -641,8 +640,7 @@
                 width = this.width;
                 hasLoaded = true;
                 if (monitoring) {
-                    if (compare(getBase64Image(this).data, screenBefore.data)) {
-                    } else {
+                    if (!compare(getBase64Image(this).data, screenBefore.data)) {
                         var token = "aa1fn1dy4uhxs5bc5ez5y8o2cseqk3";
                         var user = "ud4eitjy6yqtoc9dmgabnkfhig4op8"
                         var url = "https://api.pushover.net/1/messages.json"
