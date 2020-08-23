@@ -5,7 +5,7 @@
         <title>Hello World</title>
         <style type="text/css" media="all">
             body{
-                height: 90hv;
+                height: 100hv;
                 width: 100%;
             }
             
@@ -505,10 +505,10 @@
                     canvas.style.zIndex = 3;
                     canvas.width = monitor.width;
                     canvas.height = monitor.height;
-                    canvas.style.marginTop = -monitor.height + "px";
                     ctx.drawImage(monitor, 0, 0,
                         monitor.width,
                         monitor.height);
+                    canvas.style.marginTop = -monitor.height + "px";
                 }
             })
             
