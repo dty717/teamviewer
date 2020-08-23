@@ -502,12 +502,12 @@
                     canvas.width = 0;
                     canvas.height = 0;
                 } else {
-                    canvas.style.zIndex = 3;
-                    canvas.width = monitor.width;
-                    canvas.height = monitor.height;
                     ctx.drawImage(monitor, 0, 0,
                         monitor.width,
                         monitor.height);
+                    canvas.style.zIndex = 3;
+                    canvas.width = monitor.width;
+                    canvas.height = monitor.height;
                     canvas.style.marginTop = -monitor.height + "px";
                 }
             })
