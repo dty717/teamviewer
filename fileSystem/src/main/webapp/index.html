@@ -12,6 +12,7 @@
             img{
                 width:100%
                 height:100%
+                position: absolute;
             }
             .textare-margin {
                 margin: 0 auto;
@@ -32,6 +33,7 @@
                 float: right;
             }
             #canvas{
+                top:8px;
                 position: absolute;
             }
         </style>
@@ -94,7 +96,7 @@
     </head>
     <body>
         <img id="monitor"  alt="The Scream"/>
-        <canvas id="canvas" style="z-index:0;margin-top:-150px;" width="0"></canvas>
+        <canvas id="canvas" style="z-index:0;" width="0"></canvas>
         
         <button  onclick="monitor_screen_click(this);">monitor</button>
         <button  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">upload</button>
@@ -511,7 +513,7 @@
                     canvas.style.zIndex = 3;
                     canvas.width = monitor.width;
                     canvas.height = monitor.height;
-                    canvas.style.marginTop = -monitor.height + "px";
+                    // canvas.style.marginTop = -monitor.height + "px";
                 }
             })
             
@@ -562,6 +564,7 @@
                 startY = parseInt(e.clientY - offsetY+$(document).scrollTop());
 
                 oldImage.src=canvas.toDataURL("image/png");
+                console.log("oldImage")
                 // set a flag indicating the drag has begun
                 isDown = true;
             }
@@ -600,7 +603,7 @@
                 mouseY = parseInt(e.clientY - offsetY+$(document).scrollTop());
 
                 // Put your mousemove stuff here
-                
+                ctx.clearRect(0,0,canvas.width,canvas.height)
                 ctx.drawImage(oldImage, 0, 0,
                         canvas.width,
                         canvas.height);
