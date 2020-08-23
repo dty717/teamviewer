@@ -88,12 +88,11 @@
     		//test_connect();
         });
     </script>
-
         
     </head>
     <body>
         <img id="monitor"  alt="The Scream"/>
-        <canvas id="canvas" style="z-index:0;margin-top:-150px;"></canvas>
+        <canvas id="canvas" style="z-index:0;margin-top:-150px;" width="0"></canvas>
         
         <button  onclick="monitor_screen_click(this);">monitor</button>
         <button  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">upload</button>
@@ -134,7 +133,7 @@
                 canvas.height = img.height;
                 var ctx = canvas.getContext("2d");
                 ctx.drawImage(img, 0, 0);
-                return ctx.getImageData(0,0,canvas.width,canvas.height)
+                return ctx.getImageData(startX,startY,rect_width,rect_height)
             }
             var screenBefore;
             function monitor_screen(){
@@ -501,6 +500,8 @@
             $("#snapshot").click(function() {
                 if (canvas.style.zIndex == 3) {
                     canvas.style.zIndex = 0;
+                    canvas.width = 0;
+                    canvas.height = 0;
                 } else {
                     canvas.style.zIndex = 3;
                     canvas.width = monitor.width;
@@ -610,7 +611,6 @@
                 // draw a new rect from the start position 
                 // to the current mouse position
                 ctx.strokeRect(startX, startY, rect_width, rect_height);
-                console.log(startX, startY, rect_width, rect_height);
 
             }
             
@@ -618,6 +618,7 @@
             $("#canvas").mousedown(function(e)
             {
                 handleMouseDown(e);
+                console.log(startX, startY, rect_width, rect_height);
             });
             
             $("#canvas").mousemove(function(e)
