@@ -121,6 +121,7 @@
                     clearInterval(monitoring_Interval)
                     obj.innerText='monitor'
                 }else{
+                    screenBefore=getBase64Image(monitor);
                     monitoring_Interval=setInterval(function(){
                         monitor_screen();
                     },monitor_time)
@@ -142,7 +143,6 @@
             }
             var screenBefore;
             function monitor_screen(){
-                screenBefore=getBase64Image(monitor);
                 monitor.src = "/monitor?type=null&r="+Math.random()*1000;
             }
             
@@ -669,6 +669,7 @@
                             });
                         })
                     }
+                    screenBefore=getBase64Image(this);
                 }
             }            
             monitor.src = "/monitor?type=null&r="+Math.random()*1000;
